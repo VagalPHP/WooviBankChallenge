@@ -1,0 +1,47 @@
+# Schema para o Customer
+type Customer {
+    id: ID!
+    name: String!
+    email: String!
+    accounts: [Account!]!
+}
+
+# Schema para a Account
+type Account {
+    id: ID!
+    balance: Float!
+    customer: Customer!
+    transactions: [Transaction!]!
+    favorites: [AccountFavorites!]!
+}
+
+# Schema para a Transaction
+type Transaction {
+    id: ID!
+    account: Account!
+    amount: Float!
+    status: String!
+    createdAt: String!
+}
+
+# Schema para a AccountFavorites (favoritos de uma conta)
+type AccountFavorites {
+    id: ID!
+    account: Account!
+    favoriteAccountId: String!
+}
+
+# Queries para obter os dados
+type Query {
+    getCustomer(id: ID!): Customer
+    getAccount(id: ID!): Account
+    getTransaction(id: ID!): Transaction
+}
+
+# Mutations para criar ou atualizar dados
+type Mutation {
+    createCustomer(name: String!, email: String!): Customer!
+    createAccount(customerId: ID!, balance: Float!): Account!
+    createTransaction(accountId: ID!, amount: Float!): Transaction!
+    addFavoriteAccount(accountId: ID!, favoriteAccountId: ID!): AccountFavorites!
+}
