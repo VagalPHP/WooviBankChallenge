@@ -1,11 +1,10 @@
 import User, { IUser } from '../entities/User';
 import mongoose from 'mongoose';
 
-class UserRepository {
+export default class UserRepository {
   async create(userData: IUser): Promise<IUser> {
     try {
       const user = new User(userData);
-      console.log({ user });
       return (await user.save()) as IUser;
     } catch (error) {
       console.log(error);
@@ -19,10 +18,10 @@ class UserRepository {
     }
     try {
       const objectId = new mongoose.Types.ObjectId(id);
-      return await User.findById(objectId).populate('accounts'); // Retorna o usuário encontrado ou null se não encontrado
+      return await User.findById(objectId).populate('accounts');
     } catch (error) {
       console.error('Error fetching user:', error);
-      return null; // Retorna null em caso de erro
+      return null;
     }
   }
 
@@ -34,6 +33,19 @@ class UserRepository {
       return [];
     }
   }
-}
 
-export default new UserRepository();
+  async update(id: string, updateData: Partial<IUser>): Promise<IUser | null> {
+    if (!mongoose.isValidObjectId(id)) {
+      return null;
+    }
+    try {
+      return await User.findByIdAndUpdate(id, updateData, {
+        new: true,
+        runValidators: true,
+      }).populate('accounts');
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return null;
+    }
+  }
+}
