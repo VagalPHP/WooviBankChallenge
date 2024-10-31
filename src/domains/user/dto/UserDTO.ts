@@ -1,13 +1,14 @@
-import { ICreateUserDTO } from '../../domain/interfaces/DtoInterfaces';
-import { User } from '../../domain/entities/User';
 
-export default class UserDTO implements ICreateUserDTO {
+import { User } from '../entities/User';
+import {ICreateUserParams} from "../interfaces/UserInterfaces";
+
+export default class UserDTO implements ICreateUserParams{
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 
-  constructor(data: ICreateUserDTO) {
+  constructor(data: ICreateUserParams) {
     this.firstName = data.firstName;
     this.lastName = data.lastName;
     this.email = data.email;

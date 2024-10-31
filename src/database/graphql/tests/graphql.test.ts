@@ -1,4 +1,4 @@
-import { graphql, buildSchema } from 'graphql';
+import { buildSchema, graphql } from 'graphql';
 import resolvers from '../resolvers'; // Importe seus resolvers
 
 const schema = buildSchema(`
@@ -23,7 +23,7 @@ describe('Customer Resolvers', () => {
 
     // Configurando o resolver para retornar o cliente simulado
     resolvers.Query.getCustomer = jest.fn(({ id }) =>
-      id === '1' ? Promise.resolve(mockCustomer) : Promise.resolve(null)
+      id === '1' ? Promise.resolve(mockCustomer) : Promise.resolve(null),
     );
 
     const query = `

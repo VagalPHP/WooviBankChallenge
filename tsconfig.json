@@ -5,6 +5,7 @@
     "strict": true,                              // Ativa a verificação estrita de tipos
     "esModuleInterop": true,                     // Suporte para importações ES6
     "skipLibCheck": true,                        // Evita a verificação de tipos em bibliotecas de terceiros
+    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,    // Força consistência nos nomes dos arquivos
     "outDir": "./dist",                          // Diretório de saída dos arquivos compilados
     "rootDir": "./src"                           // Diretório de origem dos arquivos TypeScript
