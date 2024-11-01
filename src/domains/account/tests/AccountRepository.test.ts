@@ -1,9 +1,11 @@
 // tests/accountRepository.test.ts
 import AccountRepository from '../repositories/AccountRepository';
-import { IAccount } from '../entities/Account';
+import { accountSchema } from '../entities/Account';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import User from '../../user/entities/User';
+import User, { userSchema } from '../../user/entities/User';
+import { transactionSchema } from '../../transaction/entities/Transaction';
+import AccountDTO from '../dto/AccountDTO';
 
 describe('AccountRepository', () => {
   let mongoServer: MongoMemoryServer;
@@ -26,41 +28,15 @@ describe('AccountRepository', () => {
 
     // Define os schemas para garantir que estejam disponíveis
     if (!mongoose.models.User) {
-      mongoose.model(
-        'User',
-        new mongoose.Schema({
-          name: { type: String, required: true },
-          email: { type: String, required: true },
-          password: { type: String, required: true },
-        }),
-      );
+      mongoose.model('User', userSchema);
     }
 
     if (!mongoose.models.Transaction) {
-      mongoose.model(
-        'Transaction',
-        new mongoose.Schema({
-          amount: { type: Number, required: true },
-          date: { type: Date, default: Date.now },
-        }),
-      );
+      mongoose.model('Transaction', transactionSchema);
     }
 
     if (!mongoose.models.Account) {
-      mongoose.model(
-        'Account',
-        new mongoose.Schema({
-          balance: { type: Number, required: true },
-          user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
-          },
-          transactions: [
-            { type: mongoose.Schema.Types.ObjectId, ref: 'Transaction' },
-          ],
-        }),
-      );
+      mongoose.model('Account', accountSchema);
     }
   });
   afterEach(async () => {
@@ -72,13 +48,16 @@ describe('AccountRepository', () => {
   });
 
   it('deve criar uma conta com sucesso', async () => {
-    const accountData = {
+    const accountData = new AccountDTO({
+      accountNumber: 12345678900000,
       user: '507f191e810c19729de860ea',
       balance: 1000,
       transactions: [],
-    } as unknown as IAccount;
+    });
 
-    const createdAccount = await accountRepository.create(accountData);
+    const createdAccount = await accountRepository.create(
+      accountData.toAccount(),
+    );
     expect(createdAccount).toHaveProperty('_id');
     expect(createdAccount.user.toHexString()).toBe(accountData.user);
     expect(createdAccount.balance).toBe(accountData.balance);
@@ -90,15 +69,18 @@ describe('AccountRepository', () => {
       email: 'jane@example.com',
       password: 'password123',
     });
-    const accountData = {
+    const accountData = new AccountDTO({
+      accountNumber: 12345678900000,
       user: user._id as string,
       balance: 1000,
       transactions: [],
-    } as unknown as IAccount;
+    });
 
-    const createdAccount = await accountRepository.create(accountData);
-    const foundAccount = await accountRepository.findById(
-      createdAccount._id as string,
+    const createdAccount = await accountRepository.create(
+      accountData.toAccount(),
+    );
+    const foundAccount = await accountRepository.findByAccountNumber(
+      createdAccount.accountNumber.toString(),
     );
 
     expect(foundAccount).not.toBeNull();
@@ -111,14 +93,18 @@ describe('AccountRepository', () => {
       email: 'jane@example.com',
       password: 'password123',
     });
-    const accountData = {
+    const accountData = new AccountDTO({
+      accountNumber: 12345678900000,
       user: user._id as string,
-      balance: 500,
-    } as unknown as IAccount;
+      balance: 1000,
+      transactions: [],
+    });
 
-    const createdAccount = await accountRepository.create(accountData);
+    const createdAccount = await accountRepository.create(
+      accountData.toAccount(),
+    );
     const updatedAccount = await accountRepository.updateBalance(
-      createdAccount._id as string,
+      createdAccount.accountNumber.toString(),
       1500,
     );
 

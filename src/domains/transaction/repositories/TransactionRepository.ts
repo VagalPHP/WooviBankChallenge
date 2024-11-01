@@ -1,5 +1,4 @@
 import Transaction, { ITransaction } from '../entities/Transaction';
-import mongoose from 'mongoose';
 
 export default class TransactionRepository {
   async create(
@@ -9,13 +8,18 @@ export default class TransactionRepository {
     return (await transaction.save()) as ITransaction;
   }
 
-  async findById(id: string): Promise<ITransaction | null> {
-    if (!mongoose.isValidObjectId(id)) {
-      return null;
-    }
+  async findByTransactionCode(
+    transactionCode: string,
+    withAccount: boolean = false,
+  ): Promise<ITransaction | null> {
     try {
-      const objectId = new mongoose.Types.ObjectId(id);
-      return Transaction.findById(objectId).populate('account');
+      const transactionQuery = Transaction.findOne({
+        transactionCode: transactionCode,
+      });
+      if (withAccount) {
+        transactionQuery.populate('account').populate('targetAccount');
+      }
+      return transactionQuery;
     } catch (error) {
       console.error('Error fetching transaction:', error);
       return null;
@@ -32,16 +36,12 @@ export default class TransactionRepository {
   }
 
   async update(
-    id: string,
+    transactionCode: string,
     updateData: Partial<ITransaction>,
   ): Promise<ITransaction | null> {
-    if (!mongoose.isValidObjectId(id)) {
-      return null;
-    }
-
     try {
-      const updatedTransaction = await Transaction.findByIdAndUpdate(
-        id,
+      const updatedTransaction = await Transaction.findOneAndUpdate(
+        { transactionCode: transactionCode },
         updateData,
         { new: true, runValidators: true },
       ).populate('account');
