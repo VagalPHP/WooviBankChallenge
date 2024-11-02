@@ -1,21 +1,25 @@
 import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
 import dotenv from 'dotenv';
 import MongoDatabase from './database/MongoDatabase';
 import EventBus from './domains/shared/EventBus/EventBus';
 import EventEmitter from 'node:events';
-import TransactionEvents from './domains/transaction/enums/TransactionEvents';
+import TransactionEvents from './domains/shared/events/transaction/enums/TransactionEvents';
 import { ITransaction } from './domains/transaction/entities/Transaction';
-import TransactionApprovedEvent from './domains/transaction/events/TransactionApprovedEvent';
+import TransactionApprovedEvent from './domains/shared/events/transaction/TransactionApprovedEvent';
 import TransactionDTO from './domains/transaction/dto/TransactionDTO';
+import { UpdateAccountHandler } from './domains/account/event-handlers/UpdateAccountHandler';
 
 dotenv.config();
 
 const app = new Koa();
 
 const eventBus = new EventBus();
-const eventEmitter = new EventEmitter();
 
+// DOMAIN EVENTS SUBSCRIPTION
+eventBus.subscribe(new UpdateAccountHandler());
+
+// APPLICATION EVENTS AND DOMAIN EVENTS EMISSION
+const eventEmitter = new EventEmitter();
 eventEmitter.on(
   TransactionEvents.TRANSACTION_APPROVED,
   (transaction: ITransaction) => {
@@ -29,7 +33,6 @@ eventEmitter.on(
 
 const init = async () => {
   await MongoDatabase.connectDB();
-  app.use(bodyParser()); // Middleware para analisar o corpo das requisições
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log('============================================');

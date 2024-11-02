@@ -5,7 +5,7 @@ import TransactionDTO from '../dto/TransactionDTO';
 import TransactionResponse from '../response/TransactionResponse';
 import TransactionResCode from '../enums/TransactionResCode';
 import EventEmitter from 'node:events';
-import TransactionEvents from '../enums/TransactionEvents';
+import TransactionEvents from '../../shared/events/transaction/enums/TransactionEvents';
 
 export default class TransactionService extends EventEmitter {
   constructor(private _transactionRepository: TransactionRepository) {

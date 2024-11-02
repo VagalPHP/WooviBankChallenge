@@ -1,5 +1,5 @@
 import { ITransaction, TransactionStatus } from '../entities/Transaction';
-import { ITransactionApprovedEvent } from '../events/TransactionApprovedEvent';
+import { ITransactionApprovedEvent } from '../../shared/events/transaction/TransactionApprovedEvent';
 
 export interface ITransactionArgs {
   account: string;

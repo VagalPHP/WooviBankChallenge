@@ -10,6 +10,10 @@ export default class AccountService {
     return await this.accountRepository.create(accountData.toAccount());
   }
 
+  async getAccount(accountNumber: string): Promise<IAccount | null> {
+    return await this.accountRepository.findByAccountNumber(accountNumber);
+  }
+
   async addBalance(accountNumber: string, balance: number): Promise<void> {
     const account =
       await this.accountRepository.findByAccountNumber(accountNumber);
