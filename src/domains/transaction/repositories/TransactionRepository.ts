@@ -1,4 +1,4 @@
-import Transaction, { ITransaction } from '../entities/Transaction';
+import Transaction, { ITransaction } from '../schemas/Transaction';
 
 export default class TransactionRepository {
   async create(

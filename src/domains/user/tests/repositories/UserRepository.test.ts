@@ -1,7 +1,7 @@
 // userRepository.test.ts
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import MongoDatabase from '../../../../database/MongoDatabase';
-import { IUser } from '../../entities/User';
+import { IUser } from '../../schemas/User';
 import UserRepository from '../../repositories/UserRepository';
 
 describe('UserRepository', () => {
@@ -54,7 +54,7 @@ describe('UserRepository', () => {
     const foundUser = await userRepository.findById('non-existing-id');
     expect(foundUser).toBeNull(); // Verifica se o retorno é null
   });
-  
+
   it('deve atualizar um usuário com sucesso', async () => {
     // Cria um usuário inicial
     const userData = {

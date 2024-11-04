@@ -1,4 +1,4 @@
-import { IAccount } from '../entities/Account';
+import { IAccount } from '../schemas/Account';
 import AccountService from './AccountService';
 
 export default class AccountTransactionService {
@@ -40,6 +40,7 @@ export default class AccountTransactionService {
   private async _hasBalance(amount: number): Promise<boolean> {
     return amount < (this._account?.balance ?? 0);
   }
+
   private async _getTransactionAccounts(): Promise<{
     targetAccount: IAccount | null;
     account: IAccount | null;

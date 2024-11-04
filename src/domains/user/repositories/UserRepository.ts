@@ -1,4 +1,4 @@
-import User, { IUser } from '../entities/User';
+import User, { IUser } from '../schemas/User';
 import mongoose from 'mongoose';
 
 export default class UserRepository {

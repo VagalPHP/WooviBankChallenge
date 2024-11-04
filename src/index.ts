@@ -4,7 +4,7 @@ import MongoDatabase from './database/MongoDatabase';
 import EventBus from './domains/shared/EventBus/EventBus';
 import EventEmitter from 'node:events';
 import TransactionEvents from './domains/shared/events/transaction/enums/TransactionEvents';
-import { ITransaction } from './domains/transaction/entities/Transaction';
+import { ITransaction } from './domains/transaction/schemas/Transaction';
 import TransactionApprovedEvent from './domains/shared/events/transaction/TransactionApprovedEvent';
 import TransactionDTO from './domains/transaction/dto/TransactionDTO';
 import { UpdateAccountHandler } from './domains/account/event-handlers/UpdateAccountHandler';

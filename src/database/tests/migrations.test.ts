@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import Migrations from '../Migrations';
-import User from '../../domains/user/entities/User';
+import User from '../../domains/user/schemas/User';
 
 describe('Migrations', () => {
   let mongoServer: MongoMemoryServer;

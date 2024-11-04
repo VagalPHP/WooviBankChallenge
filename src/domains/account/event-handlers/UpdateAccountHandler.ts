@@ -3,7 +3,6 @@ import TransactionEvents from '../../shared/events/transaction/enums/Transaction
 import TransactionApprovedEvent from '../../shared/events/transaction/TransactionApprovedEvent';
 import AccountService from '../services/AccountService';
 import AccountRepository from '../repositories/AccountRepository';
-import account from '../entities/Account';
 import AccountTransactionService from '../services/AccountTransactionService';
 
 export class UpdateAccountHandler

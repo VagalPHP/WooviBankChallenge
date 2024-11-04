@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import User from '../domains/user/entities/User';
-import Account from '../domains/account/entities/Account';
-import Transaction from '../domains/transaction/entities/Transaction';
+import User from '../domains/user/schemas/User';
+import Account from '../domains/account/schemas/Account';
+import Transaction from '../domains/transaction/schemas/Transaction';
 
 const collections = [
   { name: 'users', model: User },

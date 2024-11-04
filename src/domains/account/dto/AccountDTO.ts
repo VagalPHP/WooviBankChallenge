@@ -1,4 +1,4 @@
-import { IAccount } from '../entities/Account';
+import { IAccount } from '../schemas/Account';
 
 export interface IAccountArgs {
   accountNumber: number;

@@ -1,5 +1,5 @@
 import AccountRepository from '../repositories/AccountRepository';
-import { IAccount } from '../entities/Account';
+import { IAccount } from '../schemas/Account';
 import AccountDTO from '../dto/AccountDTO';
 
 export default class AccountService {
@@ -12,6 +12,10 @@ export default class AccountService {
 
   async getAccount(accountNumber: string): Promise<IAccount | null> {
     return await this.accountRepository.findByAccountNumber(accountNumber);
+  }
+
+  async getAccounts(userId: string): Promise<IAccount | null> {
+    return await this.accountRepository.findByUserId(userId);
   }
 
   async addBalance(accountNumber: string, balance: number): Promise<void> {

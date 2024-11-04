@@ -1,10 +1,10 @@
 // tests/accountRepository.test.ts
 import AccountRepository from '../repositories/AccountRepository';
-import { accountSchema } from '../entities/Account';
+import { accountSchema } from '../schemas/Account';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import User, { userSchema } from '../../user/entities/User';
-import { transactionSchema } from '../../transaction/entities/Transaction';
+import User, { userSchema } from '../../user/schemas/User';
+import { transactionSchema } from '../../transaction/schemas/Transaction';
 import AccountDTO from '../dto/AccountDTO';
 
 describe('AccountRepository', () => {

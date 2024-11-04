@@ -1,10 +1,10 @@
 // tests/transactionRepository.test.ts
 import TransactionRepository from '../repositories/TransactionRepository';
-import { ITransaction } from '../entities/Transaction';
+import { ITransaction } from '../schemas/Transaction';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import Account from '../../account/entities/Account';
-import User from '../../user/entities/User';
+import Account from '../../account/schemas/Account';
+import User from '../../user/schemas/User';
 
 describe('TransactionRepository', () => {
   let mongoServer: MongoMemoryServer;

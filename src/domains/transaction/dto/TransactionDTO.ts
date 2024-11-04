@@ -1,4 +1,4 @@
-import { ITransaction, TransactionStatus } from '../entities/Transaction';
+import { ITransaction, TransactionStatus } from '../schemas/Transaction';
 import { ITransactionApprovedEvent } from '../../shared/events/transaction/TransactionApprovedEvent';
 
 export interface ITransactionArgs {

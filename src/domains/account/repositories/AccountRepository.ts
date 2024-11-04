@@ -1,4 +1,4 @@
-import Account, { IAccount } from '../entities/Account';
+import Account, { IAccount } from '../schemas/Account';
 import { Document, Model } from 'mongoose';
 
 export default class AccountRepository {
@@ -12,6 +12,17 @@ export default class AccountRepository {
   async create(accountData: IAccount): Promise<IAccount> {
     const account = new Account(accountData);
     return (await account.save()) as IAccount;
+  }
+
+  async findByUserId(userId: string): Promise<IAccount | null> {
+    try {
+      return await Account.findOne({ user: userId }).populate(
+        'user transactions',
+      );
+    } catch (error) {
+      console.error('Error fetching account:', error);
+      return null;
+    }
   }
 
   async findByAccountNumber(accountNumber: string): Promise<IAccount | null> {
